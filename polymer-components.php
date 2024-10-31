@@ -1,0 +1,286 @@
+<?php
+/**
+ * Plugin Name: Polymer for WordPress
+ * Plugin URI: http://blocknot.es/
+ * Description: Add Polymer elements to your website!
+ * Version: 1.4.4
+ * Author: Mattia Roccoberton
+ * Author URI: http://blocknot.es
+ * License: GPL3
+ *
+ * Polymer from bower; removed: core-tests core-list/demos core-scroll-header-panel/demos google-code-prettify marked/test polymer-test-tools web-animations-js/test
+ *
+ * ToDo:
+ * - connect with JSON REST API plugin
+ * - call Blocks from Widget ?
+ */
+require_once( plugin_dir_path( __FILE__ ) . 'conf.php' );
+
+class polymer_components
+{
+	var $tags = array(
+	// core
+		'core-a11y-keys'            => 'core-a11y-keys/core-a11y-keys.html',
+		'core-ajax'                 => 'core-ajax/core-ajax.html',
+		'core-xhr'                  => 'core-ajax/core-xhr.html',
+		'core-animated-pages'       => 'core-animated-pages/core-animated-pages.html',
+		'core-transition-pages'     => 'core-animated-pages/transitions/core-transition-pages.html',
+		'core-animation-group'      => 'core-animation/core-animation-group.html',
+		'core-animation'            => 'core-animation/core-animation.html',
+		'core-animation-keyframe'   => 'core-animation/core-animation.html',
+		'core-animation-prop'       => 'core-animation/core-animation.html',
+		'core-collapse'             => 'core-collapse/core-collapse.html',
+		'core-drag-drop'            => 'core-drag-drop/core-drag-drop.html',
+		'core-drawer-panel'         => 'core-drawer-panel/core-drawer-panel.html',
+		'core-dropdown'             => 'core-dropdown/core-dropdown.html',
+		'core-dropdown-base'        => 'core-dropdown/core-dropdown-base.html',
+		'core-dropdown-menu'        => 'core-dropdown-menu/core-dropdown-menu.html',
+		'core-field'                => 'core-field/core-field.html',
+		'core-header-panel'         => 'core-header-panel/core-header-panel.html',
+		'core-icon'                 => 'core-icon/core-icon.html',
+		'core-icon-button'          => 'core-icon-button/core-icon-button.html',
+		'core-iconset'              => 'core-iconset/core-iconset.html',
+		'core-iconset-svg'          => 'core-iconset-svg/core-iconset-svg.html',
+		'core-image'                => 'core-image/core-image.html',
+		'core-input'                => 'core-input/core-input.html',
+		'core-item'                 => 'core-item/core-item.html',
+		'core-label'                => 'core-label/core-label.html',
+		'core-list'                 => 'core-list/core-list.html',
+		'core-localstorage'         => 'core-localstorage/core-localstorage.html',
+		'core-media-query'          => 'core-media-query/core-media-query.html',
+		'core-menu'                 => 'core-menu/core-menu.html',
+		'core-submenu'              => 'core-menu/core-submenu.html',
+		'core-menu-button'          => 'core-menu-button/core-menu-button.html',
+		'core-meta'                 => 'core-meta/core-meta.html',
+		'core-overlay'              => 'core-overlay/core-overlay.html',
+		'core-pages'                => 'core-pages/core-pages.html',
+		'core-range'                => 'core-range/core-range.html',
+		'core-resizable'            => 'core-resizable/core-resizable.html',
+		'core-scaffold'             => 'core-scaffold/core-scaffold.html',
+		'core-scroll-header-panel'  => 'core-scroll-header-panel/core-scroll-header-panel.html',
+		'core-scroll-threshold'     => 'core-scroll-threshold/core-scroll-threshold.html',
+		'core-selection'            => 'core-selection/core-selection.html',
+		'core-selector'             => 'core-selector/core-selector.html',
+		'core-shared-lib'           => 'core-shared-lib/core-shared-lib.html',
+		'core-signals'              => 'core-signals/core-signals.html',
+		'core-splitter'             => 'core-splitter/core-splitter.html',
+		'core-style'                => 'core-style/core-style.html',
+		'core-toolbar'              => 'core-toolbar/core-toolbar.html',
+		'core-tooltip'              => 'core-tooltip/core-tooltip.html',
+		'core-transition'           => 'core-transition/core-transition.html',
+	// paper
+		'paper-button-base'         => 'paper-button/paper-button-base.html',
+		'paper-button'              => 'paper-button/paper-button.html',
+		'paper-checkbox'            => 'paper-checkbox/paper-checkbox.html',
+		'paper-dialog'              => 'paper-dialog/paper-dialog.html',
+		'paper-dialog-base'         => 'paper-dialog/paper-dialog-base.html',
+		'paper-dialog-transition'   => 'paper-dialog/paper-dialog-transition.html',
+		'paper-action-dialog'       => 'paper-dialog/paper-action-dialog.html',
+		'paper-dropdown'            => 'paper-dropdown/paper-dropdown.html',
+		'paper-dropdown-menu'       => 'paper-dropdown-menu/paper-dropdown-menu.html',
+		'paper-dropdown-transition' => 'paper-dropdown/paper-dropdown-transition.html',
+		'paper-fab'                 => 'paper-fab/paper-fab.html',
+		'paper-focusable'           => 'paper-focusable/paper-focusable.html',
+		'paper-icon-button'         => 'paper-icon-button/paper-icon-button.html',
+		'paper-input'               => 'paper-input/paper-input.html',
+		'paper-input-decorator'     => 'paper-input/paper-input-decorator.html',
+		'paper-autogrow-textarea'   => 'paper-input/paper-autogrow-textarea.html',
+		'paper-item'                => 'paper-item/paper-item.html',
+		'paper-menu-button'         => 'paper-menu-button/paper-menu-button.html',
+		'paper-progress'            => 'paper-progress/paper-progress.html',
+		'paper-radio-button'        => 'paper-radio-button/paper-radio-button.html',
+		'paper-radio-group'         => 'paper-radio-group/paper-radio-group.html',
+		'paper-ripple'              => 'paper-ripple/paper-ripple.html',
+		'paper-shadow'              => 'paper-shadow/paper-shadow.html',
+		'paper-slider'              => 'paper-slider/paper-slider.html',
+		'paper-spinner'             => 'paper-spinner/paper-spinner.html',
+		'paper-tab'                 => 'paper-tabs/paper-tab.html',
+		'paper-tabs'                => 'paper-tabs/paper-tabs.html',
+		'paper-toast'               => 'paper-toast/paper-toast.html',
+		'paper-toggle-button'       => 'paper-toggle-button/paper-toggle-button.html',
+	// misc
+		'polymer-element'           => 'polymer/polymer.html',
+	);
+	var $requirements = array(
+		'core-scaffold' => 'core-drawer-panel',         // + core-header-panel
+		'paper-dialog'  => 'paper-dialog-transition',
+	);
+	var $extra = array(
+		'core-icons' => 'core-icons/core-icons.html',
+	);
+	var $iconsets = array(
+		'av-icons'            => 'core-icons/av-icons.html',
+		'communication-icons' => 'core-icons/communication-icons.html',
+		'device-icons'        => 'core-icons/device-icons.html',
+		'editor-icons'        => 'core-icons/editor-icons.html',
+		'hardware-icons'      => 'core-icons/hardware-icons.html',
+		'image-icons'         => 'core-icons/image-icons.html',
+		'maps-icons'          => 'core-icons/maps-icons.html',
+		'notification-icons'  => 'core-icons/notification-icons.html',
+		'png-icons'           => 'core-icons/png-icons.html',
+		'social-icons'        => 'core-icons/social-icons.html',
+	);
+	var $hide_keys = array( 'poly_autop', 'poly_iconsets', 'poly_javascript', 'poly_styles', 'poly_tags', 'poly_template' );
+	var $options;
+	var $import = array();
+
+	function __construct()
+	{
+		$this->options = get_option( 'polymer-options' );
+		if( $this->options === FALSE )
+		{	// default values
+			$this->options = unserialize( POLYMER_OPTIONS );
+		}
+		if( !is_admin() )
+		{
+			add_filter( 'template_include', array( &$this, 'template_include' ), 99, 1 );
+			add_action( 'wp_enqueue_scripts', array( &$this, 'wp_enqueue_scripts' ) );
+			add_action( 'wp_head', array( &$this, 'wp_head' ) );
+		}
+		add_filter( 'is_protected_meta', array( &$this, 'is_protected_meta' ), 10, 2 );              // Hide internal meta
+		remove_filter( 'the_content', 'wpautop' );                                                   // >>> Disable automatic formatting inside WordPress shortcodes
+		add_filter( 'the_content', 'shortcode_unautop', 100 );
+		//add_filter( 'no_texturize_shortcodes', array( &$this, 'no_texturize_shortcodes' ), 10, 4 );  // <<<
+		add_action( 'init', array( &$this, 'init' ) );
+		add_action( 'widgets_init', array( &$this, 'widgets_init' ) );
+	}
+
+	function init()
+	{	// action
+		$args = array(
+			'label' => 'Blocks',
+			'description' => 'Polymer code block',
+			'exclude_from_search' => TRUE,
+			'publicly_queryable' => TRUE,
+			// 'publicly_queryable' => FALSE,
+			'show_ui' => TRUE,
+			'show_in_nav_menus' => FALSE,
+			'show_in_menu' => TRUE,
+			'show_in_admin_bar' => FALSE,
+			'menu_position' => 22,
+			'capability_type' => 'page',
+			'supports' => array( 'title', 'editor' ),
+			'rewrite' => TRUE,
+			'query_var' => TRUE,
+		);
+		register_post_type( 'block', $args );
+	}
+
+	function is_protected_meta( $protected, $meta_key )
+	{	// filter
+		// hide some meta key from custom fields of the editor
+		return ( in_array( $meta_key, $this->hide_keys ) ? TRUE : $protected );
+	}
+
+	//function no_texturize_shortcodes()
+	//{	// filter
+	//	$shortcodes[] = 'paper-button-base';
+	//	$shortcodes[] = 'paper-button';
+	//	return $shortcodes;
+	//}
+
+	function template_include( $template )
+	{
+		global $post;
+		if( is_singular() )
+		{
+			if( $post->post_type !== 'block' )
+			{
+				$poly_template = get_post_meta( $post->ID, 'poly_template', TRUE );
+				if( !empty( $poly_template ) ) return plugin_dir_path( __FILE__ ) . 'polymer-template.php';
+			}
+			else return plugin_dir_path( __FILE__ ) . 'polymer-block.php';
+		}
+		return $template;
+	}
+
+	function widgets_init()
+	{
+		register_widget( 'Polymer_Widget' );
+	}
+
+	function wp_enqueue_scripts()
+	{	// action
+		global $post;
+		wp_enqueue_script( 'polymer-webcomponentsjs', plugin_dir_url( __FILE__ ) . 'components/webcomponentsjs/webcomponents.min.js', array() );
+		if( is_singular() )
+		{	// Single posts and pages
+		// --- autop ---
+			$poly_autop = get_post_meta( $post->ID, 'poly_autop', TRUE );
+			if( !empty( $poly_autop ) ) add_filter( 'the_content', 'wpautop' , 99 );
+		// --- Blocks ---
+			$poly_blocks = get_post_meta( $post->ID, 'poly_blocks', TRUE );
+			if( !empty( $poly_blocks ) )
+			{
+				foreach( $poly_blocks as $block )
+				{
+					$block_id = intval( $block );
+					if( $block_id > 0 )
+					{
+						$poly_tags = get_post_meta( $block_id, 'poly_tags', TRUE );
+						if( !empty( $poly_tags ) )
+						{
+							$tags = unserialize( $poly_tags );
+							foreach( $tags as $tag )
+							{
+								if(      isset( $this->tags[$tag]  ) ) $this->import[$tag] = $this->tags[$tag];
+								else if( isset( $this->extra[$tag] ) ) $this->import[$tag] = $this->extra[$tag];
+							}
+						}
+						$block_data = get_post( $block_id );
+						$this->blocks[$block_id] = $block_data->post_name;
+					}
+				}
+			}
+		// --- Poly import ---
+			$poly_tags = get_post_meta( $post->ID, 'poly_tags', TRUE );
+			if( !empty( $poly_tags ) )
+			{
+				$tags = unserialize( $poly_tags );
+				foreach( $tags as $tag )
+				{
+					if(      isset( $this->tags[$tag]  ) ) $this->import[$tag] = $this->tags[$tag];
+					else if( isset( $this->extra[$tag] ) ) $this->import[$tag] = $this->extra[$tag];
+				}
+			}
+		// --- Poly iconsets ---
+			$poly_iconsets = get_post_meta( $post->ID, 'poly_iconsets', TRUE );
+			if( !empty( $poly_iconsets ) && is_array( $poly_iconsets ) ) foreach( $poly_iconsets as $iconset ) if( isset( $this->iconsets[$iconset] ) ) $this->import[$iconset] = $this->iconsets[$iconset];
+			$this->javascript = get_post_meta( $post->ID, 'poly_javascript', TRUE );
+			$this->styles = get_post_meta( $post->ID, 'poly_styles', TRUE );
+		}
+		//var_dump( is_active_sidebar( is_active_widget( FALSE, FALSE, 'polymer_widget' ) ) );
+		$polymer_widget = is_active_widget( FALSE, FALSE, 'polymer_widget' );
+		if( !empty( $polymer_widget ) )
+		{	// Polymer widgets
+			$widget_polymer_widget = get_option( 'widget_polymer_widget' );
+			foreach( $widget_polymer_widget as $widget )
+			{
+				if( isset( $widget['tags'] ) )
+				{
+					$tags = unserialize( $widget['tags'] );
+					foreach( $tags as $tag )
+					{
+						if(      isset( $this->tags[$tag]  ) ) $this->import[$tag] = $this->tags[$tag];
+						else if( isset( $this->extra[$tag] ) ) $this->import[$tag] = $this->extra[$tag];
+					}
+				}
+			}
+		}
+	}
+
+	function wp_head()
+	{
+		foreach( $this->import as $tag => $import ) echo '<link rel="import" href="', plugin_dir_url( __FILE__ ), 'components/', $import,  "\" />\n";
+		if( isset( $this->blocks ) ) foreach( $this->blocks as $id => $block ) echo '<link rel="import" href="', esc_url( get_home_url() . '?block=' . $block ),  "\" />\n";
+		if( isset( $this->javascript ) && !empty( $this->javascript ) ) echo "<script type=\"text/javascript\">\n", stripslashes( $this->javascript ), "\n</script>\n";
+		if( isset( $this->styles ) && !empty( $this->styles ) ) echo "<style type=\"text/css\">\n", stripslashes( $this->styles ), "\n</style>\n";
+	}
+}
+
+$polycomponents = new polymer_components();
+
+require( plugin_dir_path( __FILE__ ) . 'polymer-shortcodes.php' );
+require( plugin_dir_path( __FILE__ ) . 'polymer-widgets.php' );
+
+if( is_admin() ) require( plugin_dir_path( __FILE__ ) . 'polymer-admin.php' );
